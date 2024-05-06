@@ -1,0 +1,14 @@
+{
+  "name": "fitstore-back",
+  "version": "1.0.0",
+  "description": "Fitness store",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "AceKiki",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
