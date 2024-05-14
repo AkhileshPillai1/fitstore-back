@@ -16,8 +16,11 @@ const errorHandler = (err, req, res, next) => {
         case constants.BAD_REQUEST:
             res.json({ title: "Bad Request", message: err.message, stackTrace: err.stack });
             break;
+        case constants.FORBIDDEN:
+            res.json({ title: "Forbidden", message: err.message, stackTrace: err.stack });
+            break;
         default:
-            res.json({title: "Unknown error", message: err.message, stackTrace: err.stack});
+            res.json({ title: "Unknown error", message: err.message, stackTrace: err.stack });
             break;
     }
 }
