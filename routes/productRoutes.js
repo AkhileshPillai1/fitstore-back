@@ -3,7 +3,8 @@ const router = express.Router();
 const { getProducts,createProduct, updateProduct, deleteProduct, getProduct,getProductsForUser } = require('../controllers/productController');
 const validateTokenHandler = require("../middleware/validateTokenHandler");
 
-router.use(validateTokenHandler);
+
+//router.use(validateTokenHandler);
 
 router.route("/").get(getProducts);
 
