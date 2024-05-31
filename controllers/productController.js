@@ -13,16 +13,13 @@ const getProducts = asyncHandler(async (req,res)=>{
 
 const createProduct = asyncHandler(async (req,res)=>{
 
-    console.log(req.body);
-    const {productName,price,userEmail} = req.body;
-    if(!productName || !price || !userEmail){
+    const product = req.body;
+    if(!product.productName || !product.seller || !product.category || product.price==0){
         res.status(400);
-        throw new Error("Fields are mandatory");
+        throw new Error("Please enter mandatory fields");
     }
-    const product = await Product.create({
-        productName,price,userEmail
-    })
-    res.json(product);
+    const createdProduct = await Product.create(product);
+    res.json(createdProduct);
 });
 
 const getProduct = asyncHandler(async (req,res)=>{

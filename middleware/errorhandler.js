@@ -19,6 +19,9 @@ const errorHandler = (err, req, res, next) => {
         case constants.FORBIDDEN:
             res.json({ title: "Forbidden", message: err.message, stackTrace: err.stack });
             break;
+        case constants.DUPLICATE:
+            res.json({ title: "Duplicate record", message: err.message, stackTrace: err.stack });
+            break;
         default:
             res.json({ title: "Unknown error", message: err.message, stackTrace: err.stack });
             break;

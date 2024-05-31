@@ -14,6 +14,27 @@ const userSchema = mongoose.Schema({
     password:{
         type:String,
         required : [true,"Please add password"]
+    },
+    firstName:{
+        type:String
+    },
+    lastName:{
+        type:String
+    },
+    phoneNumber:{
+        type:String,
+        required : [true,"Please add Phone number"],
+        unique : [true,"Phone number already exists!"]
+    },
+    persona:{
+        type:Number,
+        required : [true,"Please add persona"]
+    },
+    address:{
+        type:Array
+    },
+    cart:{
+        type:Array
     }
 },
 {
