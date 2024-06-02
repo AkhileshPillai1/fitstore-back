@@ -18,6 +18,11 @@ const createProduct = asyncHandler(async (req,res)=>{
         res.status(400);
         throw new Error("Please enter mandatory fields");
     }
+    const duplicateProduct = await Product.find({seller:product.seller,productCode:product.productCode});
+    if(duplicateProduct.length != 0){
+        res.status(409);
+        throw new Error("Please enter a unique product code!");
+    }
     const createdProduct = await Product.create(product);
     res.json(createdProduct);
 });
