@@ -66,7 +66,8 @@ const login = asyncHandler(async (req, res) => {
 });
 
 const getUserDetails = asyncHandler(async (req, res) => {
-    res.json(req.user);
+    const user = await User.findOne({ emailId:req.user.emailId });
+    res.json(user);
 });
 
 
