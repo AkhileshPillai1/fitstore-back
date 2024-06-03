@@ -27,7 +27,11 @@ const addToCart = asyncHandler(async (req,res)=>{
     }
     const updatedUser = await User.findByIdAndUpdate(user._id, user, { new: true });// new keyword returns the updated object
     // const updatedUser = updateUser(user);
-    res.json(updatedUser);
+    const response = {
+        success:true,
+        cartItems:updatedUser
+    }
+    res.json(response);
 });
 
 module.exports = {addToCart};
