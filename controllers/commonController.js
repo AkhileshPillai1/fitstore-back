@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const User = require("../models/userModel")
+const User = require("../models/userModel");
+const { getProductsByIds } = require("../services/productService");
 
 const addToCart = asyncHandler(async (req,res)=>{
 
@@ -34,4 +35,23 @@ const addToCart = asyncHandler(async (req,res)=>{
     res.json(response);
 });
 
-module.exports = {addToCart};
+const getCartDetails = asyncHandler(async (req,res)=>{
+
+    const userObject = await User.findOne({emailId:req.user.emailId});
+    let response = [];
+    if(userObject && userObject.cart && userObject.cart.length>0){
+    let products = await getProductsByIds(userObject.cart.map(obj=>obj.productId));
+    if(products){
+        products.forEach((p,i)=>{
+            response.push({
+                product:p,
+                userQuantity:userObject.cart[i].quantity
+            });
+        });
+    }
+    }
+    
+    res.json(response);
+});
+
+module.exports = {addToCart,getCartDetails};
