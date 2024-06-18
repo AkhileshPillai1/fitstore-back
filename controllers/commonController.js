@@ -56,7 +56,6 @@ const getCartDetails = asyncHandler(async (req,res)=>{
 
 const updateCartQuantity = asyncHandler(async (req,res)=>{
     let updatedQuantity = req.body;
-    let user = req.user
     const userObject = await User.findOne({emailId:req.user.emailId});
     userObject.cart.forEach((item)=>{
         if((item.productId == updatedQuantity.productId)){

@@ -55,14 +55,14 @@ const login = asyncHandler(async (req, res) => {
                 userName: user.userName,
                 emailId: user.emailId
             }
-        }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "240m" })
-        res.status(200).json({ accessToken });
+        }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "240m" });
+        const bearerToken = `Bearer ${accessToken}`;
+        res.status(200).json({ bearerToken,user });
     }
     else {
         res.status(401);
         throw new Error("Email or Password incorrect");
     }
-    res.send("Logged in");
 });
 
 const getUserDetails = asyncHandler(async (req, res) => {
