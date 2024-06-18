@@ -54,4 +54,18 @@ const getCartDetails = asyncHandler(async (req,res)=>{
     res.json(response);
 });
 
-module.exports = {addToCart,getCartDetails};
+const updateCartQuantity = asyncHandler(async (req,res)=>{
+    let updatedQuantity = req.body;
+    let user = req.user
+    const userObject = await User.findOne({emailId:req.user.emailId});
+    userObject.cart.forEach((item)=>{
+        if((item.productId == updatedQuantity.productId)){
+            item.quantity = parseInt(updatedQuantity.userQuantity)
+        }
+    })
+
+    const updatedUser = await User.findByIdAndUpdate(userObject._id, userObject, { new: true });
+    res.json(updatedUser);
+})
+
+module.exports = {addToCart,getCartDetails,updateCartQuantity};
