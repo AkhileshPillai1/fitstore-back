@@ -82,4 +82,18 @@ const getProductsForUser = asyncHandler(async (req,res)=>{
     res.json(products);
 });
 
+const calculateReviews = asyncHandler(async (req,res)=>{
+
+    const products = await Product.find();
+    products.forEach(async (p)=>{
+        let deno = Object.values(p.stars).reduce((accum,current)=>{return accum+current},0);
+        let nomi = Object.entries(p.stars).reduce((accum,current)=>{
+            let a = accum+(parseInt(current[0])*current[1]);
+            return a;
+        },0);
+        p.rating = parseFloat((nomi/deno).toFixed(2));
+        const updatedProduct = await Product.findByIdAndUpdate(p._id, p, { new: true });
+    })
+});
+
 module.exports = {getProducts,createProduct,updateProduct,deleteProduct,getProduct,getProductsForUser};

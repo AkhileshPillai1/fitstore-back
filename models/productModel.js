@@ -49,6 +49,9 @@ const productSchema = mongoose.Schema({
         required : [true,"Please add seller email id"],
         ref:"User"
     },
+    rating:{
+        type:Number
+    }
 },
 {
     timestamps:true
