@@ -52,6 +52,8 @@ const login = asyncHandler(async (req, res) => {
     if (await bcrypt.compare(password, user.password)) {
         const accessToken = jwt.sign({
             user: {
+                userId: user._id,
+                fullName: user.firstName+" "+user.lastName,
                 userName: user.userName,
                 emailId: user.emailId
             }
