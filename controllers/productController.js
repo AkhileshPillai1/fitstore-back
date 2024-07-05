@@ -3,8 +3,11 @@ const Product = require("../models/productModel");
 const { calculateReviews } = require("../services/productService");
 
 const getProducts = asyncHandler(async (req, res) => {
-
-    const products = await Product.find();
+    let payload = {};
+    if(req.query.category && req.query.category != 0){
+        payload.category = req.query.category
+    }
+    const products = await Product.find(payload);
     if (!products) {
         res.status(404);
         throw new Error("No products")
