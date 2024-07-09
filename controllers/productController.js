@@ -4,10 +4,31 @@ const { calculateReviews } = require("../services/productService");
 
 const getProducts = asyncHandler(async (req, res) => {
     let payload = {};
-    if(req.query.category && req.query.category != 0){
+    let sort;
+    
+    if (req.query.category && req.query.category != 0) {
         payload.category = req.query.category
     }
-    const products = await Product.find(payload);
+
+    if (req.query.sortBy) {
+        sort = {
+            [req.query.sortBy.split('#')[0]]: parseInt(req.query.sortBy.split('#')[1])
+        }
+    }
+
+    if (req.query.discount) {
+        payload.discountPercentage = {
+            '$gte': req.query.discount
+        }
+    }
+
+    if (req.query.rating) {
+        payload.rating = {
+            '$gte': req.query.rating
+        }
+    }
+
+    const products = await Product.find(payload).sort(sort);
     if (!products) {
         res.status(404);
         throw new Error("No products")
