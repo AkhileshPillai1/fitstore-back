@@ -67,10 +67,28 @@ const login = asyncHandler(async (req, res) => {
     }
 });
 
+const updateUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user.userId);
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
+    }
+    const updatedUser = await User.findByIdAndUpdate(req.user.userId, req.body, { new: true });// new keyword returns the updated object
+    res.json(updatedUser);
+});
+
 const getUserDetails = asyncHandler(async (req, res) => {
     const user = await User.findOne({ emailId:req.user.emailId });
     res.json(user);
 });
 
+const updateAddresses = asyncHandler(async (req, res) => {
+    if(req.body){
+        let user = await User.findOne({ emailId:req.user.emailId });
+        user.address = req.body;
+        const updatedUser = await User.findByIdAndUpdate(req.user.userId, user, { new: true });
+        res.json(updatedUser);
+    }
+});
 
-module.exports = { register, login, getUserDetails };
+module.exports = { register, login, getUserDetails, updateUser, updateAddresses };
