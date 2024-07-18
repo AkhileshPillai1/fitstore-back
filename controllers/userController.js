@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const register = asyncHandler(async (req, res) => {
     const userObj = req.body;
-    if (!userObj.username || !userObj.emailId || !userObj.password || !userObj.persona || !userObj.phoneNumber) {
+    if (!userObj.emailId || !userObj.password || !userObj.persona || !userObj.phoneNumber) {
         res.status(400);
         throw new Error("All fields are mandatory");
     }
@@ -16,10 +16,10 @@ const register = asyncHandler(async (req, res) => {
     const hashedPassword = await bcrypt.hash(userObj.password, 15);//password hashing
     try{
         const createdUser = await User.create({
-            userName: userObj.username, emailId: userObj.emailId, password: hashedPassword, firstName: userObj.firstName, lastName: userObj.lastName, phoneNumber:userObj.phoneNumber, persona: userObj.persona, address : [], cart : []
+            emailId: userObj.emailId, password: hashedPassword, firstName: userObj.firstName, lastName: userObj.lastName, phoneNumber:userObj.phoneNumber, persona: userObj.persona, address : [], cart : []
         })
         if (createdUser) {
-            res.status(200).json({ res: "Created", user: createdUser });
+            res.status(200).json({ success: true, user: createdUser });
         }
         else {
             res.status(500);
@@ -54,7 +54,6 @@ const login = asyncHandler(async (req, res) => {
             user: {
                 userId: user._id,
                 fullName: user.firstName+" "+user.lastName,
-                userName: user.userName,
                 emailId: user.emailId
             }
         }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "240m" });
