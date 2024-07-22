@@ -46,7 +46,7 @@ const productSchema = mongoose.Schema({
     },
     seller:{
         type:String,
-        required : [true,"Please add seller email id"],
+        required : [true,"Please add seller id"],
         ref:"User"
     },
     rating:{

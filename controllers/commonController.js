@@ -1,7 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const Coupon = require("../models/couponModel");
-const { getProductsByIds } = require("../services/productService");
+const { getProductsByIds } = require("../services/productService")
+const { clearCartService } = require("../services/cartService")
 
 const addToCart = asyncHandler(async (req, res) => {
 
@@ -36,6 +37,24 @@ const addToCart = asyncHandler(async (req, res) => {
     res.json(response);
 });
 
+const clearCart = asyncHandler(
+    async (req, res) => {
+        if (req.user && req.user.userId) {
+            const updatedUser = clearCartService(req.user.userId);
+            if (updatedUser)
+                res.json(updatedUser);
+            else {
+                res.status(500);
+                throw new Error("Internal server error");
+            }
+        }
+        else{
+            res.status(500);
+                throw new Error("Internal server error");
+        }
+    }
+)
+
 const getCartDetails = asyncHandler(async (req, res) => {
 
     const userObject = await User.findOne({ emailId: req.user.emailId });
@@ -69,7 +88,7 @@ const updateCartQuantity = asyncHandler(async (req, res) => {
 });
 
 const deleteFromCart = asyncHandler(async (req, res) => {
-    if(!req.query.productId){
+    if (!req.query.productId) {
         res.status(400);
         throw new Error("Product id is missing");
     }
@@ -82,29 +101,29 @@ const deleteFromCart = asyncHandler(async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(userObject._id, userObject, { new: true });
         res.json(updatedUser.cart);
     }
-    else{
+    else {
         res.status(500);
         throw new Error("Error in fetching user");
     }
 });
 
-const validateAndFetchCoupon = asyncHandler(async (req,res)=>{
-    if(!req.query.couponCode){
+const validateAndFetchCoupon = asyncHandler(async (req, res) => {
+    if (!req.query.couponCode) {
         res.status(400);
         throw new Error("Coupon code is missing");
     }
-    let couponObj = await Coupon.findOne({code:req.query.couponCode});
-    if(couponObj && couponObj.code){
+    let couponObj = await Coupon.findOne({ code: req.query.couponCode });
+    if (couponObj && couponObj.code) {
         res.json({
-            isValid:true,
-            couponData:couponObj
+            isValid: true,
+            couponData: couponObj
         });
     }
-    else{
+    else {
         res.json({
-            isValid:false
+            isValid: false
         })
     }
 });
 
-module.exports = { addToCart, getCartDetails, updateCartQuantity, deleteFromCart,validateAndFetchCoupon };
+module.exports = { addToCart, getCartDetails, updateCartQuantity, deleteFromCart, validateAndFetchCoupon, clearCart };

@@ -17,6 +17,7 @@ app.use(express.json());//json body parser. used to parse(deserialize) incoming 
 app.use("/products/",require("./routes/productRoutes"));//routing file for Product apis
 app.use("/users/",require("./routes/userRoutes"));
 app.use("/common/",require("./routes/commonRoutes"));
+app.use("/order/",require("./routes/orderRoutes"));
 app.use(errorHandler);///middleware for handling errors. express automatically invokes this middleware whenever an error is thrown across the application
 
 //app starts listening here to incoming requests
