@@ -23,6 +23,9 @@ const sellerOrderSchema = mongoose.Schema({
     },
     totalAmount:{
         type:Number
+    },
+    status:{
+        type:String
     }
 },
 {

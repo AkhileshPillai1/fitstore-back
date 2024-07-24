@@ -7,13 +7,16 @@ const userOrderSchema = mongoose.Schema({
         ref:"User"
     },
     orderDetails:{
-        type:Array
+        type:Object
     },
     orderItems:{
         type:Array
     },
     deliveryAddress:{
         type:Object
+    },
+    status:{
+        type:String
     }
 },
 {
